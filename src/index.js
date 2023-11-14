@@ -6,8 +6,8 @@ let UserModel = require('./models/user')
 
 let email = new EmailModel({
     email: 'ada.lovelace@gmail.com',
-    name: 'Ajala Jalingo',
-    age: 12
+    // name: 'Ajala Jalingo',
+
 })
 
 email.save()
