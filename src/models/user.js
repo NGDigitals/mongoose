@@ -1,5 +1,7 @@
 let mongoose = require('mongoose');
 let validator = require('validator')
+let timestampPlugin = require('./plugins/timestamp')
+
 let userSchema = new mongoose.Schema({
     first_name: {
         type: String,
@@ -23,10 +25,10 @@ let userSchema = new mongoose.Schema({
             return validator.isEmail(value)
         }
     },
-    createdAt: Date,
-    updatedAt: Date
+    age: Number,
+    // createdAt: Date,
+    // updatedAt: Date
 })
-
 userSchema.virtual('full_name').get(function() {
     return this.first_name + ' ' + this.last_name
 })
@@ -42,21 +44,20 @@ userSchema.methods.getInitials = function() {
     return this.first_name[0] + this.last_name[0]
 }
 
-// userSchema.statics.getUsers = function() {
-//     return new Promise((resolve, reject) => {
-//         this.find((err, docs) => {
-//             if(err) {
-//                 console.error(err)
-//                 return reject(err)
-//             }
-//             resolve(docs)
-//         })
-//     })
-// }
+userSchema.statics.getUsers = function() {
+    return new Promise((resolve, reject) => {
+        this.find({}).then(doc => {
+            console.log('Doc', doc)
+            resolve(doc)
+        }).catch(err => {
+            console.error(err)
+            return reject(err)
+        })
+    })
+}
 
 // userSchema.pre('save', function (next) {
 //     let now = Date.now()
-    
 //     this.updatedAt = now
 //     // Set a value for createdAt only if it is null
 //     if (!this.createdAt) {
@@ -65,4 +66,6 @@ userSchema.methods.getInitials = function() {
 //     // Call the next function in the pre-save chain
 //     next()    
 // })
+
+userSchema.plugin(timestampPlugin)
 module.exports = mongoose.model('users', userSchema)
