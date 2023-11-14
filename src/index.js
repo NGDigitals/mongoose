@@ -5,7 +5,7 @@ let UserModel = require('./models/user')
 // let timestampPlugin = require('./models/plugins/timestamp')
 
 let email = new EmailModel({
-    email: 'ada.lovelace@gmail.com',
+    // email: 'ada.lovelace@gmail.com',
     name: 'Ajala Jalingo',
 
 })
